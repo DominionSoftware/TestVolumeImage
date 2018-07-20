@@ -33,12 +33,12 @@ class Volume {
         this.actor.getProperty().setScalarOpacity(0, this.opacityTransferFunction);
         this.actor.getProperty().setScalarOpacityUnitDistance(0, 4.5);
         this.actor.getProperty().setInterpolationTypeToLinear();
-        this.actor.getProperty().setUseGradientOpacity(0, true);
-        this.actor.getProperty().setGradientOpacityMinimumValue(0, 15);
-        this.actor.getProperty().setGradientOpacityMinimumOpacity(0, 0.0);
-        this.actor.getProperty().setGradientOpacityMaximumValue(0, 100);
-        this.actor.getProperty().setGradientOpacityMaximumOpacity(0, 1.0);
-        this.actor.getProperty().setShade(true);
+        // this.actor.getProperty().setUseGradientOpacity(0, true);
+        // this.actor.getProperty().setGradientOpacityMinimumValue(0, 15);
+        // this.actor.getProperty().setGradientOpacityMinimumOpacity(0, 0.0);
+        // this.actor.getProperty().setGradientOpacityMaximumValue(0, 100);
+        // this.actor.getProperty().setGradientOpacityMaximumOpacity(0, 1.0);
+       //this.actor.getProperty().setShade(true);
         this.actor.getProperty().setAmbient(0.2);
         this.actor.getProperty().setDiffuse(0.7);
         this.actor.getProperty().setSpecular(0.3);
@@ -126,8 +126,9 @@ vol.init();
 renderer.addActor(vol.actor);
 
 renderer.getActiveCamera().yaw(15);
+
 renderer.resetCamera();
-debugger;
+
 renderWindow.render();
 
 
