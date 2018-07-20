@@ -1,0 +1,29 @@
+{
+  "name": "testvolumeimage",
+  "version": "1.0.0",
+  "description": "Test vtk.js image volume\r This code intends to create a volume with an empty vtkimage. There is a color transfer function that\r defines 0 as blue, 100 as red and 1000 as green.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress --colors --mode development",
+    "build:release": "webpack --progress --colors --mode production",
+    "start": "webpack-dev-server --content-base ./src",
+    "commit": "git cz",
+    "semantic-release": "semantic-release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DominionSoftware/TestVolumeImage.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/DominionSoftware/TestVolumeImage/issues"
+  },
+  "homepage": "https://github.com/DominionSoftware/TestVolumeImage#readme",
+  "dependencies": {
+    "vtk.js": "^7.4.10"
+  },
+  "devDependencies": {
+    "kw-web-suite": "^6.2.0"
+  }
+}
