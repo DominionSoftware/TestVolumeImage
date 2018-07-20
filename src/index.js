@@ -31,14 +31,14 @@ class Volume {
         this.opacityTransferFunction.addPoint(1000.0, 1);
         this.actor.getProperty().setRGBTransferFunction(0, this.colorTransferFunction);
         this.actor.getProperty().setScalarOpacity(0, this.opacityTransferFunction);
-        this.actor.getProperty().setScalarOpacityUnitDistance(0, 4.5);
+        // this.actor.getProperty().setScalarOpacityUnitDistance(0, 4.5);
         this.actor.getProperty().setInterpolationTypeToLinear();
         // this.actor.getProperty().setUseGradientOpacity(0, true);
         // this.actor.getProperty().setGradientOpacityMinimumValue(0, 15);
         // this.actor.getProperty().setGradientOpacityMinimumOpacity(0, 0.0);
         // this.actor.getProperty().setGradientOpacityMaximumValue(0, 100);
         // this.actor.getProperty().setGradientOpacityMaximumOpacity(0, 1.0);
-       //this.actor.getProperty().setShade(true);
+        //this.actor.getProperty().setShade(true);
         this.actor.getProperty().setAmbient(0.2);
         this.actor.getProperty().setDiffuse(0.7);
         this.actor.getProperty().setSpecular(0.3);
@@ -47,7 +47,7 @@ class Volume {
         this.mapper.setSampleDistance(1.0);
     }
 
-    init(){
+    init() {
         let xVoxels = 256;
         let yVoxels = 256;
         let zVoxels = 79;
@@ -71,27 +71,29 @@ class Volume {
         this.imageData.getPointData().setScalars(scalarArray);
         this.mapper.setInputData(this.imageData);
     }
+
     // based on vtkImageData.cxx (vtkDataSet)
-    computeIndex(extent,incs, xyz)
-    {
-        return ( ( ((xyz[0] - extent[0]) * incs[0]) +((xyz[1] - extent[2]) * incs[1]) + ((xyz[2] - extent[4]) * incs[2])) | 0);
+    computeIndex(extent, incs, xyz) {
+        return ((((xyz[0] - extent[0]) * incs[0]) + ((xyz[1] - extent[2]) * incs[1]) + ((xyz[2] - extent[4]) * incs[2])) | 0);
     }
+
     // based on vtkImageData.cxx (vtkDataSet)
     computeImageDataIncrements(numberOfComponents) {
         const datasetDefinition = this.imageData.get('extent', 'spacing', 'origin');
-        let inc = [0,0,0];
+        let inc = [0, 0, 0];
         let incr = numberOfComponents;
-        for (let idx = 0; idx < 3; ++idx)
-        {
+        for (let idx = 0; idx < 3; ++idx) {
             inc[idx] = incr;
-            incr *= (datasetDefinition.extent[idx*2+1] - datasetDefinition.extent[idx*2] + 1);
+            incr *= (datasetDefinition.extent[idx * 2 + 1] - datasetDefinition.extent[idx * 2] + 1);
         }
         return inc;
     }
+
     // Set the voxels for a z slice index.
-    setSlice( zIndex) {
-        console.log("adding slice at" + zIndex);
-        debugger;
+    setSlice(zIndex) {
+        console.log("setting slice at" + zIndex);
+
+
         const datasetDefinition = this.imageData.get('extent', 'spacing', 'origin');
         let scalars = this.imageData.getPointData().getScalars();
         let increments = this.computeImageDataIncrements(1); // TODO number of components.
@@ -103,7 +105,7 @@ class Volume {
                 indexXYZ[0] = col;
                 {
                     let destIdx = this.computeIndex(datasetDefinition.extent, increments, indexXYZ);
-                    if ((zIndex % 2) == 0) {
+                    if ((zIndex % 2) === 0) {
                         data[destIdx] = 100;
                     }
                     else {
@@ -133,14 +135,19 @@ renderWindow.render();
 
 
 function addSlices() {
-   for (let z = 0; z < 40; z++) {
-      vol.setSlice(z);
-      renderWindow.render();
+    for (let z = 0; z < 40; z++) {
+        vol.setSlice(z);
+        vol.imageData.modified(true);
+        vol.actor.modified(true);
+        vol.mapper.modified(true);
+        renderer.modified(true);
+        renderWindow.render();
     }
 }
+
 // ----------------------------------------------------------// UI control handling // ----------------------------------------------------------
 fullScreenRenderer.addController(controlPanel);
-document.getElementById("button").addEventListener("click",(e) => {
+document.getElementById("button").addEventListener("click", (e) => {
     addSlices();
     debugger;
     renderWindow.render();
